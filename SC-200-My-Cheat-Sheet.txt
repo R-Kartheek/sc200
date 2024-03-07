@@ -1,0 +1,419 @@
+Microsoft Defender family (XDR - Extended detection and response) 
+=============================
+
+1. Microsoft defender for M365 - Microsoft Defender XDR 
+--------------------------------------------------------
+a. Microsoft defender for endpoint ==>  MDE
+b. Microsoft defender for O365 ==> MDO
+c. Microsoft defender for Identity ==> MDI
+d. Microsoft defender for cloud apps ==> MDCA 
+
+Defender === ATP ===> Advance threat protection 
+
+
+2. Microsoft defender for cloud  (Security center, Azure defender for cloud), suit or family of tools 
+---------------------------------
+
+a. Defender for servers
+b. Defender for storage 
+c. Defender for network 
+d. Defender for Azure SQL 
+e. Defender for AAD 
+f. Defender for containers 
+g. Defender for DNS 
+--------------------------------------
+Anti-virus 
+EDR = Endpoint detection and response
+XDR 
+---------------------------------------
+XDR protects all these pillars of your IT infra
+------------------------------------------------
+1. Identity
+2. Endpoint
+3. Application 
+4. Infra
+5. Network 
+6. Data 
+
+MDO protection 
+=====================
+1. Edge protection 
+2. Sender intelligence 
+3. Content filtering 
+4. Post breach protection 
+
+
+MDO 
+----------
+1. EOP - exchange online protection 
+2. MDO plan 1 
+3. MDO plan 2  - post breach operations - protection, detection, attack simulator and expert support
+
+PDIR 
+----------
+1. Protection
+2. Detection 
+3. Identification and investigation 
+4. Response & Remediation 
+-----------
+in an automated way 
+
+
+MDI 
+--------------
+> Is used to protect identities in  your ADDS, ADCA and ADFS servers. 
+> Sensors are running inside the ADDS and ADFS servers 
+> It protects the entire attack chain of your identity - 
+
+1.Recon
+2.Credentials theft
+3. lateral movement
+4. domain dominance 
+
+
+Azure Identity protection - Entra ID Identity protection 
+=================================================================
+
+Driven by AI/ML 
+-----------------
+1. User risk 
+a. Stolen Credentails 
+
+2. Sign in risk 
+----------------
+a. Impossible travel 
+b. Atypical travel 
+c. Anon access 
+d. Malicious IP 
+e. Malicious domain
+f. Login from an unknown location
+
+
+
+
+
+
+
+Defender for endpoint - MDE == Nextgen EDR 
+========================
+1. VM 
+2. ASR - Attack surface reduction 
+3. AIR - Automated investigation and remediation 
+4. NextGen protection 
+5. EDR 
+6. Secure Score 
+7. Expert 
+
+How to onboard devices 
+-----------------------------
+1. Local script 
+2. SCCM 
+3. Intune - Endpoint manager
+4. GPO 
+5. Third party tools 
+6. VDI script 
+
+-----------------------------
+MDO - Microsoft Defender for O365 
+------------
+1. EOP - Free - Exchange online protection 
+2. MDO plan 1 
+3. MDO plan 2 
+
+1. Virus scanning 
+2. anti-phishing 
+3. anti-spam 
+4. Safe attachment 
+5. Safe URL 
+6. Safe Links 
+7. Imporsonation protection 
+
+Security.microsoft.com
+---------------------------
+MDI - Microsoft Defender for Identity
+------------
+MDI is for on-prem servers - AD DS and ADFS 
+
+Azure Identity protection 
+------------------------------
+Driven by AI/ML 
+-----------------
+1. User risk 
+a. Stolen Credentails 
+
+2. Sign in risk 
+----------------
+a. Impossible travel 
+b. Atypical travel 
+c. Anon access 
+d. Malicious IP 
+e. Malicious domain
+f. Login from an unknown location
+
+Defender for cloud apps 
+----------------------------
+1. PDIR  - Protection, detection, Investigation and remediation in an automated way. 
+
+2. Shadow IT 
+3. Conditional access app policy 
+4. Sanctioned/Unsanctioned 
+5. Catalog - > 40 K apps
+6. Discovery 
+7. Devices are also supported (Shows device details) 
+8. Files are also supported  ( Shows file details) 
+
+--------------
+a. Cloud discovery - Connectors 
+b. Third party app connectors 
+c. Oauth supported 
+d. SAML app 
+e. Log collector 
+f. Manually upload the log -snapshot
+g. Integration with MDE for hosts 
+
+7. Policy = DLP policy, Threat policy, Conditional app access policy, 
+======================
+
+Others 
+---------------
+Microsoft information protection - MIP 
+DLP - Data loss protection ====> 
+Insider risk managment 
+
+
+1. Classify the data 
+2. Label 
+
+compliance.microsoft.com = Microsoft purview 
+
+===================================
+Endpoint.microsoft.com - intune portal 
+
+- Baseline policy 
+- ASR policy 
+
+------------------------------------
+Defender for cloud 
+---------------------------
+1. PDIR 
+
+2. a. CSPM ( Cloud security posture managament) b. CWSP (Cloud workload protection) 
+
+3. Secure score - 
+4. Compliance managment 
+5. Mulit-cloud supported
+6. Hubrid cloud support 
+7. Recommendations 
+
+a. Arc managed servers
+b. without arc 
+
+for non Azure servers - install the MMA agent, New AMA 
+
+7. Attack paths = Known attack chains 
+
+8. Recommendation - Fix them to improve the posture 
+
+9. Alerts 
+
+10. Workbooks - Visualizations 
+
+11. Defender for cloud is collection of multiple defenders. You can enable or disable them as per your requirements 
+
+
+12. Automation - playbooks - logic app 
+
+13. Security Explorer 
+
+CSWP 
+==============
+PDIR = 
+
+Vul test - VMs 
+
+JIT - Just in time access 
+
+
+
+KQL 
+-------------
+1. Where 
+2. Project 
+3. Summerize 
+4. Let 
+5. Extend 
+6. Union
+7. Join 
+8. Render 
+9. Count 
+10. Ago 
+11. Search 
+------------------------------------
+KQL opeator
+==============
+1. \\ and \ escaping 
+
+2. // ===> comment 
+
+3. Where ==> to filter rows from a table 
+
+4. | ==> pipe ==> to separate data transformation operators 
+
+5. ago() ==> spports time stamp = day, minitues, seconds 
+
+6. project ==> Select and customize the columnes 
+
+7. extend ===> add calculated events to the result 
+
+8. count ===> count the number of records
+
+9. summerize ===> aggerate results from your query 
+
+10. search ===> search values 
+
+11. != ====> not equal to 
+
+12. let ===> to bind names to expressions 
+
+13. render ===> to create visualizations 
+
+14. join ===> to join 
+-------------------------------------
+=====================================
+
+    // ===> comment: Use // to add a comment in your KQL query. Anything after the // will be ignored by the query engine. For example, // This is a comment.
+
+    Where ==> to filter rows from a table: Use the Where operator to filter rows from a table based on a condition. For example, TableName | Where ColumnName == "Value".
+
+    | ==> pipe ==> to separate data transformation operators: Use the | (pipe) operator to separate data transformation operators in your KQL query. For example, TableName | Where ColumnName == "Value" | Project ColumnName.
+
+    ago() ==> supports time stamp = day, minutes, seconds: Use the ago() operator to reference a time stamp in the past. You can specify the time period as day, minute, or second. For example, TableName | Where Timestamp < ago(1d).
+
+    project ==> Select and customize the columns: Use the project operator to select and customize the columns in your KQL query. For example, TableName | Project ColumnName1, ColumnName2.
+
+    extend ===> add calculated events to the result: Use the extend operator to add calculated events to the result of your KQL query. For example, TableName | Extend NewColumn = ColumnName1 + ColumnName2.
+
+    count ===> count the number of records: Use the count operator to count the number of records in your KQL query. For example, TableName | Count.
+
+    summarize ===> aggregate results from your query: Use the summarize operator to aggregate results from your KQL query. For example, TableName | Summarize count() by ColumnName.
+
+    search ===> search values: Use the search operator to search for values in your KQL query. For example, TableName | Search "Value".
+
+    != ====> not equal to: Use the != operator to find values that are not equal to a specified value. For example, TableName | Where ColumnName != "Value".
+
+    let ===> to bind names to expressions: Use the let operator to bind names to expressions in your KQL query. For example, let VariableName = "Value" | TableName | Where ColumnName == VariableName.
+
+    render ===> to create visualizations: Use the render operator to create visualizations from your KQL query. For example, TableName | Summarize count() by ColumnName | Render piechart.
+
+    join ===> to join tables: Use the join operator to join two tables in your KQL query. For example, TableName1 | Join TableName2 on ColumnName.
+
+ 
+
+Sentinel 
+====================
+1. Is a SIEM tool 
+
+2. SIEM - SIM + SEM 
+
+3. Sentinel is more than a SIEM a tool 
+
+a. Cloud native 
+b. SIEM solution powered by Cloud 
+c. SOAR 
+d. NextGen SIEM 
+
+---------------------------
+1. You need a log analytics workspace 
+
+2. How to manage sentinel across the tenents - Azure lighthouse 
+
+
+3. Watchlist 
+
+4. Threat indicators 
+
+
+Sentinel permissions 
+-----------------------
+RBAC roles 
+-----------
+
+Set them up from the log analytics - IAM page 
+
+a. Sentinel contributor 
+b. Sentinel responder 
+c. Sentinel reader 
+
+
+Log retention 
+------------------
+30 - 730 days 
+
+90 - days are free 
+
+Upto 7 years 
+
+
+
+Windows VM
+===============
+1. Azure VM 
+2. Non Azure VM 
+a. With Arc 
+b. without arc
+
+
+Analytics 
+-----------
+a. Fusion
+b. Microsoft rules 
+c. NRT 
+d. Schedule 
+e. ML 
+f. Anomaly 
+g. Threat rules 
+
+Incidents 
+---------------------
+Event - Alerts >>> Incidents 
+
+
+Workbook 
+
+
+Automation 
+
+ASIM 
+
+Playbook 
+
+Notebooks 
+
+MITRE ATT&K 
+
+TI 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
