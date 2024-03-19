@@ -1,0 +1,305 @@
+search in (SecurityEvent,App*) "new" === > new process has been created 
+
+3. SecurityEvent | top 5 by Account asc 
+
+4. SecurityEvent | sort by Account
+
+5. SecurityEvent | sort by Account desc 
+
+6. let lmt = 3;
+SecurityEvent
+| sort by Account asc
+| limit lmt;
+// let creates a variable
+
+7. let myTable =
+SecurityEvent
+| limit 10;
+myTable
+
+// A variable could also contain a table.
+
+===============================================================================
+
+8. SecurityEvent
+| project Account,Computer
+
+
+9. SecurityEvent
+| project Account,Computer, AccountType
+
+
+10. SecurityEvent
+| project Account,Computer, AccountType
+| project-away AccountType
+
+
+11. SecurityEvent
+| project-keep Account*
+
+// project-keep has the same result as project but you could use *
+
+================================================================================
+
+
+12. SecurityEvent
+| where Account contains "NT"
+
+
+13. SecurityEvent
+| where Account startswith "NT"
+
+14. SecurityEvent
+| where Computer has "JBOX00"
+
+
+15. SecurityEvent  
+| where TimeGenerated > ago(1h)
+
+
+16. SecurityEvent  
+| where TimeGenerated > ago(1h) and EventID == 4624
+
+SecurityEvent  
+| where TimeGenerated > ago(1h)
+| where EventID == 4624  
+| where AccountType =~ "user"
+SecurityEvent  
+| where TimeGenerated > ago(1h) and EventID in (4624, 4625)
+
+==================================================================================
+
+
+17. The following statement demonstrates the use of the let statement to declare a dynamic table. In the Query Window enter the following statement and select Run:
+
+let LowActivityAccounts =
+    SecurityEvent 
+    | summarize cnt = count() by Account 
+    | where cnt < 1000;
+LowActivityAccounts | where Account contains "sql"
+
+
+18. The following statement demonstrates the extend operator, which creates a calculated column and adds it to the result set. In the Query Window enter the following statement and select Run:
+
+SecurityEvent  
+| where TimeGenerated > ago(1h) 
+| where ProcessName != "" and Process != "" 
+| extend StartDir =  substring(ProcessName,0, string_size(ProcessName)-string_size(Process))
+
+
+
+
+19. Summerize operator 
+==================================================================================
+
+SecurityEvent
+| summarize EventCount = count() by EventID, Computer
+
+
+The following statement demonstrates the count() function, which returns a count of the group. In the Query Window enter the following statement and select Run:
+
+SecurityEvent  
+| where TimeGenerated > ago(1h) and EventID == 4688  
+| summarize count() by Process, Computer
+
+
+20. The following statement demonstrates the count() function, but in this example, we name the column as cnt. In the Query Window enter the following statement and select Run:
+
+SecurityEvent  
+| where TimeGenerated > ago(1h) and EventID == 4624  
+| summarize cnt=count() by AccountType, Computer
+
+------------------------------------------------------
+arg_max, arg_min
+=================================================================
+
+
+
+
+summarize can be used for much more complex scenarios than a count. But right now I want to highlight arg_max and arg_min. These functions maximise and minimise, respectively, the value of a column and return the corresponding row
+
+The arg_max and arg_min functions in KQL allow you to find the records that correspond to the maximum and minimum values of a specific column within a group
+
+
+SecurityEvent
+| summarize arg_max(EventID, *) by Computer
+
+
+In this example, arg_max(EventTime, *) returns the record(s) that have the maximum EventTime for each unique ComputerName in the SecurityEvent table. The * wildcard is used to include all columns from the original record in the result.
+
+
+SecurityEvent
+| summarize arg_min(EventCount, *) by EventID
+
+
+
+This query identifies the record(s) that have the minimum EventCount for each unique EventID in the SecurityEvent table. The arg_min(EventCount, *) function is used, and the * wildcard includes all columns from the original record
+
+
+
+
+---------------------------------------------------------==================================
+
+Render operator 
+------------------
+
+SecurityEvent  
+| where TimeGenerated > ago(1h)
+| summarize count() by Account
+| render barchart
+
+
+Union Operator 
+===================================================================
+
+
+
+Query 1 will return all rows of SecurityEvent and all rows of SigninLogs.
+
+SecurityEvent  
+| union SigninLogs  
+Query 2 will return one row and column, which is the count of all rows of SigninLogs and all rows of SecurityEvent.
+
+SecurityEvent  
+| union SigninLogs  
+| summarize count() 
+
+
+Query 3 will return all rows of SecurityEvent and one (last) row for SigninLogs. The last row for SigninLogs will have the summarized count of the total number of rows.
+
+SecurityEvent  
+| union (SigninLogs | summarize count() | project count_)
+
+
+union App*  
+| summarize count() by Type
+
+
+
+Join Operator
+============================================================
+
+
+The following statement demonstrates the join operator, which merges the rows of two tables to form a new table by matching values of the specified column(s) from each table. In the Query Window enter the following statement and select Run:
+
+SecurityEvent  
+| where EventID == 4624 
+| summarize LogOnCount=count() by  EventID, Account
+| project LogOnCount, Account
+| join kind = inner( 
+ SecurityEvent  
+| where EventID == 4634 
+| summarize LogOffCount=count() by  EventID, Account
+| project LogOffCount, Account
+) on Account
+
+
+SecurityEvent
+| where TimeGenerated >= ago(1h)
+| take 1000
+| join (Heartbeat) on Computer
+
+
+
+
+
+Parsing in KQL 
+==============================================================
+
+
+
+Consider a custom log with data in the following format:
+
+
+Copy
+Time=2018-03-10 01:34:36 Event Code=207 Status=Success Message=Client 05a26a97-272a-4bc9-8f64-269d154b0e39 connected
+Time=2018-03-10 01:33:33 Event Code=208 Status=Warning Message=Client ec53d95c-1c88-41ae-8174-92104212de5d disconnected
+Time=2018-03-10 01:35:44 Event Code=209 Status=Success Message=Transaction 10d65890-b003-48f8-9cfc-9c74b51189c8 succeeded
+Time=2018-03-10 01:38:22 Event Code=302 Status=Error Message=Application could not connect to database
+Time=2018-03-10 01:31:34 Event Code=303 Status=Error Message=Application lost connection to database
+
+
+The following query would parse this data into individual properties. The line with project is added to only return the calculated properties and not RawData, which is the single property that holds the entire entry from the custom log.
+
+
+
+
+MyCustomLog_CL
+| parse RawData with * "Time=" EventTime " Event Code=" Code " Status=" Status " Message=" Message
+| project EventTime, Code, Status, Message
+
+
+This example breaks out the user name of a UPN in the AzureActivity table.
+
+
+
+
+AzureActivity
+| parse  Caller with UPNUserPart "@" * 
+| where UPNUserPart != "" //Remove non UPN callers (apps, SPNs, etc)
+| distinct UPNUserPart, Caller
+
+Regular expressions
+If your data can be identified with a regular expression, you can use functions that use regular expressions to extract individual values. The following example uses extract to break out the UPN field from AzureActivity records and then return distinct users.
+
+
+
+
+AzureActivity
+| extend UPNUserPart = extract("([a-z.]*)@", 1, Caller) 
+| distinct UPNUserPart, Caller
+To enable efficient parsing at large scale, Azure Monitor uses the re2 version of Regular Expressions, which is similar but not identical to some of the other regular expression variants. For more information, see the re2 expression syntax.
+
+==================================================================
+
+
+In Kusto Query Language (KQL), you can work with JSON data and extract values from dynamic fields using various functions and operators. Here's how you can work with JSON data and dynamic fields in KQL:
+
+Assuming you have a column named "JsonColumn" in a table named "MyTable" containing JSON data, and the JSON objects have dynamic fields:
+
+    Parsing JSON Data:
+
+You can use the parse_json() function to convert the JSON text into a dynamic object that you can work with:
+
+----------------------
+=====================================================================
+
+
+
+MyTable
+| project parse_json(JsonColumn) as JsonObject
+
+This will parse the JSON data in the "JsonColumn" and create a new column "JsonObject" with the parsed JSON objects.
+
+    Accessing Dynamic Fields:
+
+Once you have parsed the JSON data, you can access dynamic fields using dot notation or array notation:
+
+
+
+MyTable
+| project parse_json(JsonColumn) as JsonObject
+| project JsonObject.DynamicField1, JsonObject["DynamicField2"]
+
+In this example, replace "DynamicField1" and "DynamicField2" with the actual field names you want to access.
+
+    Working with Dynamic Fields:
+
+You can also use the mv-apply operator to work with dynamic fields within the JSON objects. This is useful when you have varying sets of fields in different JSON objects:
+
+
+
+MyTable
+| project parse_json(JsonColumn) as JsonObject
+| mv-apply JsonObject on
+(
+    project DynamicField = tostring(kv_get('key', JsonObject)), 
+            DynamicValue = tostring(kv_get('value', JsonObject))
+)
+
+This example uses the kv_get() function to iterate over each key-value pair in the JSON object, creating new columns "DynamicField" and "DynamicValue" for each pair.
+
+Remember that KQL is powerful for querying structured and semi-structured data, but working with truly dynamic fields in JSON objects might require some flexibility in how you structure your queries. Also, adapt the table and column names to match your use case.
+
+
+
